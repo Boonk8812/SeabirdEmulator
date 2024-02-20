@@ -14,7 +14,7 @@ set(SOURCES
 add_library(Seabird OBJECT ${SOURCES})
 
 # Link the object files into an executable
-add_executable(${PROJECT_NAME} $<TARGET_OBJECTS:Seabird_Emulator>)
+add_executable(${PROJECT_NAME} $<TARGET_OBJECTS:sea_bird_emulator>)
 
 # Set include directories for the project
 target_include_directories(Seabird PRIVATE
