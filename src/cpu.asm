@@ -46,6 +46,16 @@ inst dec, imm, dst
   %5 %1, %3, %2, %4
 %endmacro
 
+; Initialization routine
+_init:
+    ; Insert your initialisation script here
+    ; For demonstration purposes, we increment the first two registers
+    inc r0, 0x0001, r0
+    inc r1, 0x0001, r1
+
+; Rest of the file remains untouched
+; ...
+
 ; Specific instruction definitions
 %define mov GENERIC_INSTRUCTION mov, imm, dst, src
 %define cmp GENERIC_INSTRUCTION cmp, imm, dst, src
