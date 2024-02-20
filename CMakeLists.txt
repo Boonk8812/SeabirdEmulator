@@ -6,8 +6,9 @@ project(Seabird VERSION 0.0.1)
 
 # Add the source files to the build
 set(SOURCES
-  src/main.cpp
-  # add additional source files here as needed
+  src/
+  bin/
+  emulator/
 )
 
 # Compile the sources into object files
