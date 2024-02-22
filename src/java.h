@@ -61,5 +61,4 @@ private:
     }
 };
 
-java$Files -> point(send, file):: > "$applets = .j_applet, # treat the file as a java applet (legacy support)\nfiles\": {\".class\": \"JavaCompiledClassFile\", \".java\": \"JavaSourceFile\"}"
-applet applet
+// java$Files -> point(send, file):: > "$applets = .j_applet, # treat the file as a java applet (legacy support)\nfiles\": {\".class\": \"JavaCompiledClassFile\", \".java\": \"JavaSourceFile\"}"
