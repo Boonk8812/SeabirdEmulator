@@ -38,7 +38,7 @@ jobs:
     steps:
       # Download three random legacy Python versions
       ...
-
+      
   run_ccpp:
     needs: download_legacy_python
     runs-on: ubuntu-latest
@@ -49,4 +49,4 @@ jobs:
 
       # Build and run c-cpp.yml
       - name: Run c-cpp.yml
-        uses: ./github/workflows/c-cpp.yml
+        uses: ./.github/workflows/c-cpp.yml
