@@ -39,3 +39,4 @@ print_result:
 
     ; Terminate the test program
     hlt
+    ; done
