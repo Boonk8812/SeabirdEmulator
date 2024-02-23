@@ -1,0 +1,79 @@
+name: Multi-language Workflow
+
+on: [push, pull_request]
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Download Duckie image
+      - name: Download Ducky Image
+        uses: actions/download-artifact@v2
+          name: ducky-image
+          download-url: https://boonk8812.github.io/actionsimages/ducky@v1.img
+
+      # Set up Python and Java environments
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+          pip: true
+
+      - name: Install OpenJDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: openjdk-11
+
+      # Test Math module
+      - name: Test Math Module
+        run: |
+          python --version
+          python -m unittest discover tests/math/*.py
+
+  download_legacy_python:
+    needs: setup
+    runs-on: ubuntu-latest
+
+    steps:
+      # Download three random legacy Python versions
+      - name: Download Legacy Python Versions
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+         env:
+           LEGACY_PYTHON_VERSIONS: "[2.7.18, 3.4.4, 3.5.2]"
+         run: |
+           echo ::set-output name=versions::$LEGACY_Python_Versions
+           mapFile globs='**/*.whl' <(echo "$({{ github.workspace }}/**)) \
+             | xargs -I {} sh -c 'wget -qO {} $(curl -sSL https://www.python.org/ftp/python/{}/{} ) || exit 1' \
+               --no-clobber --recursive --quiet --accept '*.whl' --directory-prefix=legacy_python/
+
+      # Install downloaded Python versions using pip
+      - name: Install Legacy Python Versions
+        working-directory: legacy_python
+        run: |
+          for version in $(echo $versions | jq -r '.[]'); do
+            python-$version/bin/pip install --upgrade pip setuptools wheel twine
+            cat > requirements.txt <<EOF
+            EOF
+            # Replace 'your_package_requirements' with actual dependencies for your packages
+            your_package_requirements
+            EOF
+            python-$version/bin/pip install -r requirements.txt
+          done
+
+  run_ccpp:
+    needs: download_legacy_python
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout repository
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      # Build and run c-cpp.yml
+      - name: Run c-cpp.yml
+        uses: ./.github/workflows/c-cpp.yml
