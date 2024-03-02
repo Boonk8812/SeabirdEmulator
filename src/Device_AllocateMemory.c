@@ -47,10 +47,10 @@ struct Allocator : RAM_Allocator {
 		    int _allocate_limit() = 0xFFFFFFFFFFF;
 		    int _allocate_preload_limit() = 0xFFFFFFFFFFFFFFFFF;
 
-		    _allocate_byte_()
-		    _allocate_preload_byte()
-		    _allocate_limit()
-		    _allocate_preload_limit()
+		    _allocate_byte_();
+		    _allocate_preload_byte();
+		    _allocate_limit();
+		    _allocate_preload_limit();
 		    
 		    int _allocate_memory() = address, preloader_memory;
 		    int _memory() = address, preloader_memory;
