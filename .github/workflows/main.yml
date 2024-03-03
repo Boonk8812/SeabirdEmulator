@@ -28,26 +28,31 @@ jobs:
       env:
         GCC_EXTRA_ARGS: "-Wall -Werror"
       runs-on: ubuntu-latest
-      step:
-        name: Build C
-        uses: actions/setup-gcc@v0.3.0
-        args:
-          install-sun-javasdk: true
-        env:
-          PATH: "${{ runner.tools.java.install_rpath }}:${{ runner.os.pathsep}}$(PATH)"
+      steps:
+        - name: Setup Environment
+          uses: actions/setup-gcc@v0.3.0
+          args:
+            install-sun-javasdk: true
+          env:
+            PATH: "${{ runner.tools.java.install_rpath }}:${{ runner.os.pathsep}}$(PATH)"
+
+        - name: Build C
+        working-directory: ${{ github.workspace }}
         continue-on-error: false
         shell: bash
         script: |
-          cd $(find . -type f \( -iname "main.c" \) -exec dirname {} \; | head -n 1)/
-          make clean
-          make
+          find . -type f \( -iname "main.c" \) -exec cd {}\ ; \
+          xargs sh -c 'cd $_ && make clean && make'
 
       # Compile Assembly files using NASM
       - name: Build Assembly
       runs-on: ubuntu-latest
-      step:
-        name: Build Assembly
-        uses: actions/setup-nasm@v1
+      steps:
+        - name: Setup Environment
+          uses: actions/setup-nasm@v1
+
+        - name: Build Assembly
+        working-directory: ${{ github.workspace }}
         continues-on-error: false
         shell: bash
         script: |
