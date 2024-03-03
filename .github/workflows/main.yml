@@ -1,0 +1,70 @@
+name: Build-and-Test
+on: [push, pull_request]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - uses: actions/checkout@v2
+
+      # Set up JDK for Java compilation
+      - name: Use Java 14
+        uses: actions/setup-java@v2
+        with:
+          java-version: '14'
+
+      # Install Dart SDK
+      - name: Setup Dart
+        uses: actions/setup-dart@master
+
+      # Compile Dart files
+      - name: Test Dart
+        run: flutter pub get && flutter test --coverage
+
+      # Compile C files using gcc
+      - name: Build C
+      env:
+        GCC_EXTRA_ARGS: "-Wall -Werror"
+      runs-on: ubuntu-latest
+      step:
+        name: Build C
+        uses: actions/setup-gcc@v0.3.0
+        args:
+          install-sun-javasdk: true
+        env:
+          PATH: "${{ runner.tools.java.install_rpath }}:${{ runner.os.pathsep}}$(PATH)"
+        continue-on-error: false
+        shell: bash
+        script: |
+          cd $(find . -type f \( -iname "main.c" \) -exec dirname {} \; | head -n 1)/
+          make clean
+          make
+
+      # Compile Assembly files using NASM
+      - name: Build Assembly
+      runs-on: ubuntu-latest
+      step:
+        name: Build Assembly
+        uses: actions/setup-nasm@v1
+        continues-on-error: false
+        shell: bash
+        script: |
+          find . -type s -name "*.asm" | while read src; do
+            cd "$(dirname $src)"
+            nasm -f elf64 "$basename $src" -o "${basename $src%.asm}.o"
+            ld -m elf_x86_64 -T link.ld "${basename $src%.asm}.o" -o "${basename $src%.*}"
+          done
+
+      # Run tests for Java files
+      - name: Test Java
+      if: grep -q '.java$' <(find . -type f ! -path "./node_modules/**")
+      runs-on: ubuntu-latest
+      needs: build
+      steps:
+        - name: Test
+          uses: actions/test/junit@v1
+          args:
+            jdk: 'oraclejdk-14'
+            tests: **/*Test.class
