@@ -1,61 +1,49 @@
-struct Allocator : RAM_Allocator {
+#include <iostream>
 
-	RAM: {
+struct RAM_Allocator {};
 
-		 int address = 0x0000, 0xFFFF;
-		 int preloader_memory = 0x000000, 0xFFFFFF;
-	}
-	void allocate() {
+struct Allocator : public RAM_Allocator {
+private:
+    constexpr static int MIN_ADDRESS = 0x0000;
+    constexpr static int MAX_ADDRESS = 0xFFFF;
+    constexpr static int MIN_PRELOADER_MEMORY = 0x000000;
+    constexpr static int MAX_PRELOADER_MEMORY = 0xFFFFFF;
 
+public:
+    int address;
+    int preloader_memory;
 
-                 void .preloader_memory(0x4C);
-		 typedef static struct {
+    Allocator() : address(MIN_ADDRESS), preloader_memory(MIN_PRELOADER_MEMORY) {}
 
-			 int Bit(0xA704);
-			 int Num_memory(address);
-			 static struct Memory_contents {
-                   
-				 int contents = {
-
-				          typedef short GDT;
-					  typedef short IDT;
-					  void _idt() {
-
-                                               typedef unsigned int IDT_0;
-					       typedef IDT_0 uintptr_t;
-					       typedef IDT_0 size_t;
-				          }
-				 }
-			 }
-		 } 
-	}
-
-	for i(;;) {
-
-	        if (nullptr) {
-                    break;
-		} else {
-                    continue;
-		}
+    bool allocateByte(int& byteLocation, int value) {
+        if ((byteLocation >= MIN_ADDRESS && byteLocation <= MAX_ADDRESS) ||
+            (byteLocation >= MIN_PRELOADER_MEMORY && byteLocation <= MAX_PRELOADER_MEMORY)) {
+            byteLocation = value;
+            return true;
+        } else {
+            std::cout << "Invalid allocation request" << std::endl;
+            return false;
         }
-        void allocate() {
+    }
+};
 
-            	for i(;;) {
+int main() {
+    Allocator allocator;
 
-                    int _allocate_byte_() = 0x03F5;
-	            int _allocate_preload_byte() = 0x0040;
-		    int _allocate_limit() = 0xFFFFFFFFFFF;
-		    int _allocate_preload_limit() = 0xFFFFFFFFFFFFFFFFF;
+    // Attempting to allocate bytes
+    int allocatedMemory1 = -1;
+    if (!allocator.allocateByte(allocatedMemory1, 0x4C)) {
+        std::cout << "Failed to allocate memory" << std::endl;
+    };
 
-		    _allocate_byte_();
-		    _allocate_preload_byte();
-		    _allocate_limit();
-		    _allocate_preload_limit();
-		    
-		    int _allocate_memory() = address, preloader_memory;
-		    int _memory() = address, preloader_memory;
+    int allocatedPreloaderMemory1 = -1;
+    if (!allocator.allocateByte(allocatedPreloaderMemory1, 0x03F5)) {
+        std::cout << "Failed to allocate preloader memory" << std::endl;
+    };
 
-	    	}
-	}
-	allocate(memory);
+    // Outputting the results
+    std::cout << "Address: " << hex << allocatedMemory1 << dec << ", Value: " << oct << allocatedMemory1 << dec << endl;
+    std::cout << "Preloader Address: " << hex << allocatedPreloaderMemory1 << dec << ", Value: " << oct << allocatedPreloaderMemory1 << dec << endl;
+
+    return 0;
 }
