@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # Set the project name and version
-project(Seabird VERSION 0.0.1)
+project(Seabird_App VERSION 0.0.1)
 
 # Add the source files to the build
 set(SOURCES
