@@ -18,12 +18,26 @@ I want to be on the following job on this project:
   You can only select one job.
   
   I want to be an Admin                               [] X for yes, blank for no
+
+  
   I want to be a Code Reviewer                        []
+
+  
   I want to be a YAML Deployment Applier              []
+
+  
   I want to be a Code Owner                           []
+
+  
   I want to be a Sponsoring Member                    []
+
+  
   I want to be a Code Supporter                       []
+
+  
   I want to be a Compatibilty Helper                  []
+
+  
   I want to be a Moderator                            []
   
   
