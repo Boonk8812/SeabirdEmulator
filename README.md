@@ -9,7 +9,7 @@ Seabird is an emulator to emulate everything from Samsung devices, HP technology
 
 # Welcome to Seabird!
 
-Welcome to The Seabird Project! This project is open-source and will have custom libraries for developers. And while you're here, Sponsor the project! If you can't afford to sponsor the project, no worries! We totally get it. But if you do want to support the project, that's fair and we really appreciate it! Remember, this project is FOSS (**F**ree, and **O**pen **S**our**c**e), and if you want to support the project, email the Project Administrator/Project Owner at dmurp2023@gmail.com saying the following:
+Welcome to The Seabird Project! This project is open-source and will have custom libraries for developers. And while you're here, Sponsor the project! If you can't afford to sponsor the project, no worries! We totally get it. But if you do want to support the project, that's fair and we really appreciate it! Remember, this project is FOSS (**F**ree, and **O**pen **S**our**c**e), and if you want to support the project, email the Project Administrator/Project Owner at declanmurphy4321@gmail.com saying the following:
 
 Hello! I want to become a part of the Seabird Project at "https://github.com/Boonk8812/SeabirdEmulator". 
 Can I please be a part of it? If yes, then thank you!
